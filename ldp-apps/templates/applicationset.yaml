@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ldp-apps
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/alanbruhns/ldp-platform-values.git
+        revision: HEAD
+        files:
+        - path: "environments/{{ .Values.environment }}/*.yaml"
+  template:
+    metadata:
+      name: '{{ .Values.environment }}-{{.appName}}'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/alanbruhns/{{.appName}}
+        targetRevision: '{{.targetRevision}}'
+        path: '{{.appName}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd

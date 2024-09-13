@@ -1,0 +1,4 @@
+repositories:
+  - "ldp-platform-helm"
+  - "ldp-platform-values"
+  - "ldp-api-course"
