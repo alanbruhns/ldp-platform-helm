@@ -4,13 +4,11 @@ metadata:
   name: ldp-platform-applicationset
 spec:
   generators:
-    - directory:
-        # Define the GitHub repository where the directories are found
+    - git:
         repoURL: https://github.com/alanbruhns/ldp-platform-values.git
-        # Set the branch to track
         revision: main
-        # Define the path within the repository to search for directories
-        directory: environments
+        directories:
+          - path: environments/*
   template:
     metadata:
       name: '{{path.basename}}'  # Uses the directory name as the application name
@@ -19,7 +17,6 @@ spec:
       source:
         repoURL: https://github.com/alanbruhns/ldp-platform-helm.git
         targetRevision: main
-        # Define the path to the Helm chart
         path: ldp-apps
         helm:
           values: |
