@@ -1,0 +1,17 @@
+repos:
+  - https://github.com/alanbruhns/ldp-platform-helm
+  - https://github.com/alanbruhns/ldp-platform-values
+  - https://github.com/alanbruhns/ldp-api-course
+  # - https://github.com/alanbruhns/ldp-app-course
+
+apps:
+  - name: ldp-api-course
+    repoURL: https://github.com/alanbruhns/ldp-api-course
+    targetRevision: main
+    path: helm
+  # - name: ldp-app-course
+  #   repoURL: https://github.com/alanbruhns/ldp-app-course
+  #   targetRevision: main
+  #   path: helm
+  #   values:
+  #     key1: value1
