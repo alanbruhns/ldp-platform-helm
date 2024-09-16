@@ -1,26 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: ldp-environments
+  name: ldp-platform-applicationset
 spec:
   generators:
-    - git:
+    - directory:
+        # Define the GitHub repository where the directories are found
         repoURL: https://github.com/alanbruhns/ldp-platform-values.git
+        # Set the branch to track
         revision: main
-        directories:
-        - path: environments/*
+        # Define the path within the repository to search for directories
+        directory: environments
   template:
     metadata:
-      name: 'dv'
-      namespace: argocd
+      name: '{{path.basename}}'  # Uses the directory name as the application name
     spec:
       project: default
       source:
         repoURL: https://github.com/alanbruhns/ldp-platform-helm.git
         targetRevision: main
+        # Define the path to the Helm chart
         path: ldp-apps
-        values:
-        - environment: 'dv'
+        helm:
+          values: |
+            environment: '{{path.basename}}' # Passes the environment name to the second ApplicationSet
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd

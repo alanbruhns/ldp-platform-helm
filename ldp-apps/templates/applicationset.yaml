@@ -1,26 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: ldp-apps
+  name: ldp-environment-applicationset
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
-    - git:
-        repoURL: https://github.com/alanbruhns/ldp-platform-values.git
-        revision: HEAD
-        files:
-        - path: "environments/{{ .Values.environment }}/*.yaml"
+    - files:
+        repoURL: https://github.com/alanbruhns/ldp-platform-helm.git
+        revision: main
+        path: environments/{{ .Values.environment }}/*.values.yaml
   template:
     metadata:
-      name: '{{ .Values.environment }}-{{.appName}}'
-      namespace: argocd
+      name: '{{path.basename}}' # Application name is derived from the filename
     spec:
       project: default
       source:
-        repoURL: https://github.com/alanbruhns/{{.appName}}
-        targetRevision: '{{.targetRevision}}'
-        path: '{{.appName}}'
+        repoURL: 'https://github.com/alanbruhns/{{path.basename}}'
+        targetRevision: main
+        path: charts/{{path.basename}}
       destination:
-        server: https://kubernetes.default.svc
-        namespace: argocd
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{ .Values.environment }}'
