@@ -13,6 +13,22 @@ apps:
     repoURL: https://github.com/alanbruhns/ldp-api-course
     targetRevision: main
     path: helm
+  - name: ldp-api-course3
+    repoURL: https://github.com/alanbruhns/ldp-api-course
+    targetRevision: main
+    path: helm
+  - name: ldp-api-course4
+    repoURL: https://github.com/alanbruhns/ldp-api-course
+    targetRevision: main
+    path: helm
+  - name: ldp-api-course5
+    repoURL: https://github.com/alanbruhns/ldp-api-course
+    targetRevision: main
+    path: helm
+  - name: ldp-api-course6
+    repoURL: https://github.com/alanbruhns/ldp-api-course
+    targetRevision: main
+    path: helm
   # - name: ldp-app-course
   #   repoURL: https://github.com/alanbruhns/ldp-app-course
   #   targetRevision: main
