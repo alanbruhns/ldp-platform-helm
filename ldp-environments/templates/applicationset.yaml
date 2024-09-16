@@ -3,26 +3,24 @@ kind: ApplicationSet
 metadata:
   name: ldp-environments
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
         repoURL: https://github.com/alanbruhns/ldp-platform-values.git
-        revision: HEAD
+        revision: main
         directories:
         - path: environments/*
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: 'dv'
       namespace: argocd
     spec:
       project: default
       source:
         repoURL: https://github.com/alanbruhns/ldp-platform-helm.git
-        targetRevision: HEAD
+        targetRevision: main
         path: apps/ldp-apps
         values:
-        - environment: '{{.path.basename}}'
+        - environment: 'dv'
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd
