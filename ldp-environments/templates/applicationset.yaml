@@ -11,7 +11,7 @@ spec:
           - path: environments/*
   template:
     metadata:
-      name: '{{path.basename}}'  # Uses the directory name as the application name
+      name: '{{ basename }}'  # Uses the directory name as the application name
     spec:
       project: default
       source:
@@ -20,7 +20,7 @@ spec:
         path: ldp-apps
         helm:
           values: |
-            environment: '{{path.basename}}' # Passes the environment name to the second ApplicationSet
+            environment: '{{ basename }}' # Passes the environment name to the second ApplicationSet
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd
