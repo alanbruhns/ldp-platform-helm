@@ -8,12 +8,17 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: https://github.com/alanbruhns/ldp-platform-helm
+  - repoURL: https://github.com/alanbruhns/ldp-platform-values
     targetRevision: main
+    ref: values
+  - repoURL: https://github.com/alanbruhns/ldp-platform-helm
+    targetRevision: {{ $envName }}
     path: app-of-environments
     helm:
+      valueFiles:
+      - $values/{{ $envName }}/app-of-environments.values.yaml
       values: |
-          environment: {{ $envName }}
+        environment: {{ $envName }}
   destination:
     server: {{ $envConfig.destination.server }}
     namespace: argocd
