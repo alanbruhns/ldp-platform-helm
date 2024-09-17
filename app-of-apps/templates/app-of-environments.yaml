@@ -1,0 +1,29 @@
+{{- range $envName, $envConfig := .Values.environments }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-{{ $envName }}
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: https://github.com/alanbruhns/ldp-platform-helm
+    targetRevision: main
+    ref: values
+  - repoURL: https://github.com/alanbruhns/ldp-platform-helm
+    targetRevision: main
+    path: app-of-environments
+    helm:
+      values:
+        environment: {{ $envName }}
+      valueFiles:
+      - $values/{{ $envName }}/app-of-environments.yaml
+  destination:
+    server: {{ $envConfig.destination.server }}
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}
