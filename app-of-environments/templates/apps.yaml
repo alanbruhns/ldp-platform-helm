@@ -7,13 +7,18 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: {{ $appConfig.source.repoURL | quote }}
+  sources:
+  - repoURL: https://github.com/alanbruhns/ldp-platform-helm
+    targetRevision: main
+    ref: values
+  - repoURL: {{ $appConfig.source.repoURL | quote }}
     targetRevision: {{ default $.Values.environment $appConfig.source.targetRevision | quote }}
     path:  {{ $appConfig.source.path  | quote }}
     helm:
+      valueFiles:
+      - $values/{{ default $.Values.environment $appConfig.source.targetRevision }}/{{ $appName }}.values.yaml
       values: |
-        environment: {{ $.Values.environment }}
+        environment: {{ default $.Values.environment $appConfig.source.targetRevision }}        
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
