@@ -13,7 +13,6 @@ spec:
     path:  {{ $appConfig.source.path  | quote }}
     helm:
       values: |
-        environment: {{ $.Values.environment }}
         {{ toYaml $appConfig.source.values | indent 8 }}
   destination:
     server: https://kubernetes.default.svc
