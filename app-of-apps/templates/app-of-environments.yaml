@@ -15,8 +15,8 @@ spec:
     targetRevision: main
     path: app-of-environments
     helm:
-      values:
-        environment: '{{ $envName }}'
+      values: |
+        environment: {{ $envName }}
   destination:
     server: {{ $envConfig.destination.server }}
     namespace: argocd
