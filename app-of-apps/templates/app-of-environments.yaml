@@ -10,9 +10,6 @@ spec:
   sources:
   - repoURL: https://github.com/alanbruhns/ldp-platform-helm
     targetRevision: main
-    ref: values
-  - repoURL: https://github.com/alanbruhns/ldp-platform-helm
-    targetRevision: main
     path: app-of-environments
     helm:
       values: |
