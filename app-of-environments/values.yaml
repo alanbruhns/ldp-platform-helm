@@ -1,9 +1,3 @@
 environment: 
 
 apps:
-  ldp-api-identity:
-    source:
-      repoURL: https://github.com/alanbruhns/ldp-api-identity
-      path: helm
-      values:
-        environment: 
