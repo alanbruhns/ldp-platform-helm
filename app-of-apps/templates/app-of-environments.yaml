@@ -17,8 +17,8 @@ spec:
     helm:
       values:
         environment: {{ $envName }}
-      valueFiles:
-      - $values/{{ $envName }}/app-of-environments.yaml
+      # valueFiles:
+      # - $values/{{ $envName }}/app-of-environments.yaml
   destination:
     server: {{ $envConfig.destination.server }}
     namespace: argocd
