@@ -2,6 +2,7 @@ repos:
   - https://github.com/alanbruhns/ldp-platform-helm
   - https://github.com/alanbruhns/ldp-platform-values
   - https://github.com/alanbruhns/ldp-api-identity
+  - https://github.com/alanbruhns/ldp-api-hello
 
 environments:
   develop:
