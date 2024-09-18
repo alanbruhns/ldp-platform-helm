@@ -12,6 +12,8 @@ spec:
       revision: main
       files:
       - path: "{{ .Values.environment }}/ldp-api-*.values.json"
+      values:
+        appName: ldp-api-identity
   template:
     metadata:
       name: {{ .Values.environment }}-ldp-api-'{{ .appName }}'
