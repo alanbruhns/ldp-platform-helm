@@ -4,12 +4,14 @@ metadata:
   name: {{ .Values.environment }}-apps
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: https://github.com/alanbruhns/ldp-platform-values.git
       revision: main
       files:
-      - path: "{{ .Values.environment }}/ldp-api-*.values.yaml"
+      - path: "{{ .Values.environment }}/ldp-api-*.values.json"
   template:
     metadata:
       name: '{{ .Values.environment }}-ldp-api-identity'
@@ -19,12 +21,12 @@ spec:
       - repoURL: https://github.com/alanbruhns/ldp-platform-values
         targetRevision: main
         ref: values
-      - repoURL: https://github.com/alanbruhns/{{ `{{ repo }}` }}
+      - repoURL: https://github.com/alanbruhns/{{ .repo }}
         targetRevision: {{ .Values.environment | quote }}
         path:  helm
         helm:
           valueFiles:
-          - $values/{{ .Values.environment }}/{{ `{{ repo }}` }}.values.yaml
+          - $values/{{ .Values.environment }}/{{ .repo }}.values.yaml
           values: |
             environment: {{ .Values.environment }}        
       destination:
