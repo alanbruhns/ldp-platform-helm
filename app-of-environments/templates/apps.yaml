@@ -1,29 +1,38 @@
-{{- range .Values.apps }}
----
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
-  name: {{ $.Values.environment }}-{{ . }}
+  name: {{ .Values.environment }}-apps
   namespace: argocd
 spec:
-  project: default
-  sources:
-  - repoURL: https://github.com/alanbruhns/ldp-platform-values
-    targetRevision: main
-    ref: values
-  - repoURL: https://github.com/alanbruhns/{{ . }}
-    targetRevision: {{ default $.Values.environment | quote }}
-    path:  helm
-    helm:
-      valueFiles:
-      - $values/{{ $.Values.environment }}/{{ . }}.values.yaml
-      values: |
-        environment: {{ $.Values.environment }}        
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-{{- end }}
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - git:
+      repoURL: https://github.com/alanbruhns/ldp-platform-values.git
+      revision: main
+      files:
+      - path: "{{ .Values.environment }}/ldp-api-*.values.yaml"
+  template:
+    metadata:
+      name: '{{ .Values.environment }}-ldp-api-identity'
+    spec:
+      project: default
+      sources:
+      - repoURL: https://github.com/alanbruhns/ldp-platform-values
+        targetRevision: main
+        ref: values
+      - repoURL: 'https://github.com/alanbruhns/{{ .repo }}'
+        targetRevision: {{ .Values.environment | quote }}
+        path:  helm
+        helm:
+          valueFiles:
+          - $values/{{ .Values.environment }}/{{ .repo }}.values.yaml
+          values: |
+            environment: {{ .Values.environment }}        
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
