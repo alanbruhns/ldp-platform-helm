@@ -21,12 +21,12 @@ spec:
       - repoURL: https://github.com/alanbruhns/ldp-platform-values
         targetRevision: main
         ref: values
-      - repoURL: "https://github.com/alanbruhns/'{{ .repo }}'"
+      - repoURL: "https://github.com/alanbruhns/'{{ values.repo }}'"
         targetRevision: {{ .Values.environment | quote }}
         path:  helm
         helm:
           valueFiles:
-          - $values/{{ .Values.environment }}/{{ .repo }}.values.yaml
+          - $values/{{ .Values.environment }}/{{ values.repo }}.values.yaml
           values: |
             environment: {{ .Values.environment }}        
       destination:
