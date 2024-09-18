@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.environment }}-apps
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: https://github.com/alanbruhns/ldp-platform-values.git
